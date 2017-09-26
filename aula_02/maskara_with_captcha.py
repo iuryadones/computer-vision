@@ -1,7 +1,9 @@
+import os
 import cv2
 import numpy as np
 
-image = cv2.imread('../db_aulas/images/gatinhos.jpg')
+path = os.getcwd()
+image = cv2.imread(path + '/db_aulas/images/gatinhos.jpg')
 cv2.imshow("Original", image)
 #cv2.waitKey(0)
 
