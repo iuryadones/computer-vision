@@ -10,4 +10,3 @@ cv2.waitKey(0)
 sobel_x = cv2.Sobel(image)
 cv2.imshow("image", sobel_x)
 cv2.waitkey(0)
-
