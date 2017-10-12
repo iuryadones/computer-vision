@@ -15,24 +15,37 @@ def mean_std(image, win):
     return mean, std
 
 def threshold_sauvola(image, window_size, k, r=None):
+    result = np.zeros(image.shape)
+
     if r is None: 
         r = 0.5*(image.max()-image.min()) 
+
     m, s = mean_std(image, window_size)
     T = m * (1 + k * ((s / r) - 1))
-    return T
+
+    bright = T >= image
+    dark = T < image
+    result[bright] = 1
+    result[dark] = 0
+
+    return result
 
 img = cv2.imread("../db_images/png/captcha.png", 0)
 
 image = threshold_sauvola(img, window_size=3, k=0.999, r=128)
-cv2.imshow('image', image)
-cv2.waitKey(0)
-
-image = threshold_sauvola(img, window_size=7, k=0.999)
-cv2.imshow('image', image)
+cv2.imshow('Sauvola win=3, k=0.999', image)
 cv2.waitKey(0)
 
 image = threshold_sauvola(img, window_size=5, k=0.05)
-cv2.imshow('image', image)
+cv2.imshow('Sauvola win=5, k=0.05', image)
+cv2.waitKey(0)
+
+image = threshold_sauvola(img, window_size=7, k=0.032)
+cv2.imshow('Sauvola win=7, k=0.032', image)
+cv2.waitKey(0)
+
+image = threshold_sauvola(img, window_size=3, k=0.999)
+cv2.imshow('Sauvola win=3, k=0.999', image)
 cv2.waitKey(0)
 
 ret, thresh1 = cv2.threshold(img, 50, 255, cv2.THRESH_BINARY)
