@@ -2,8 +2,11 @@
 
 import cv2
 
-image_fundo = cv2.imread('../db_images/png/captcha.png')
-image_menor = cv2.imread('../db_images/jpeg/captcha.jpeg')
+path = '../db_images/' 
+
+
+image_fundo = cv2.imread(path + 'png/captcha.png')
+image_menor = cv2.imread(path + 'jpeg/captcha.jpeg')
 
 altura = image_fundo.shape[0]
 channels = image_fundo.shape[2]
