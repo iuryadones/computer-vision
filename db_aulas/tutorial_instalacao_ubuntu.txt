@@ -1,0 +1,5 @@
+Tutorial instalação Opencv Ubuntu:
+http://www.pyimagesearch.com/2016/10/24/ubuntu-16-04-how-to-install-opencv/
+
+Tutorial instalação Keras (deep learning) Ubuntu:
+http://www.pyimagesearch.com/2016/07/18/installing-keras-for-deep-learning/

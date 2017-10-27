@@ -1,0 +1,7 @@
+acessando camera do celular como câmera ip:
+
+- baixe o aplicativo "IP Webcam" para celular (testei apenas com android)
+- no código do opencv, na hora de acessar a câmera utilize o ip.
+Ex: meu ip de aceso é : 'http://192.168.25.3:8080
+Aí no código fica:
+cap = cv2.VideoCapture('http://192.168.25.3:8080/video')

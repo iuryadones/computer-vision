@@ -1,0 +1,5 @@
+Tutorial instalação opencv - Mac:
+http://www.pyimagesearch.com/2016/12/19/install-opencv-3-on-macos-with-homebrew-the-easy-way/
+
+Tutorial instalação Keras (Deep Learning) - Mac: 
+http://www.pyimagesearch.com/2016/07/18/installing-keras-for-deep-learning/

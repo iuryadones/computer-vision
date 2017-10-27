@@ -1,0 +1,13 @@
+Bibliotecas:
+- Python 2.7 ou 3.X
+- numpy
+- scipy
+- matplotlib
+- imutils
+- pillow
+- dlib
+- opencv 3.1 (ou mais recente)
+- opencv_contrib 3.1 (ou mais recente - mesma versão do opencv)
+- scikit-image
+- scikit-learn
+- Keras (apenas se for usar deep learning)
