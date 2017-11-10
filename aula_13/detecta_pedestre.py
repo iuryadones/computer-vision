@@ -24,7 +24,7 @@ imagePaths = list(paths.list_images(path_pedestre))
 for imagePath in imagePaths:
 # load the image and resize it to (1) reduce detection time
 # and (2) improve detection accuracy
-    image = cv2.imread(imagePath, 0)
+    image = cv2.imread(imagePath)
     image = imutils.resize(image, width=min(400, image.shape[1]))
     orig = image.copy()
 
