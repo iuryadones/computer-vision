@@ -36,6 +36,7 @@ for i in range(len(cnts)):
     cv2.imshow("Contorno único", clone)
     cv2.waitKey(0)
 
+clone = img.copy()
 for i, c in enumerate(cnts):
     print('Mask and Image {}'.format(i+1))
 
