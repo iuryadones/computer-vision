@@ -8,7 +8,7 @@ path = os.getcwd() + os.sep
 path_test = path + "../db_aulas/Imagens/minibases/data_101/data_101/car_side_test"
 
 # load the detector
-detector = dlib.simple_object_detector('stop_sign.svm')
+detector = dlib.simple_object_detector('car_sign.svm')
 
 # loop over the testing images
 for testingPath in paths.list_images(path_test):

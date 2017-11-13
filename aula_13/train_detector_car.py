@@ -40,7 +40,7 @@ detector = dlib.train_simple_object_detector(images, boxes, options)
 
 # dump the classifier to file
 print("[INFO] dumping classifier to file...")
-detector.save('stop_sign.svm')
+detector.save('car_sign.svm')
 
 # visualize the results of the detector
 win = dlib.image_window()
