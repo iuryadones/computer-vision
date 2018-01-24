@@ -1,10 +1,10 @@
 from collections import Counter
 
-import numpy as np
 from skimage.feature import hog
-from sklearn.externals import joblib
 from sklearn.datasets.mldata import fetch_mldata
+from sklearn.externals import joblib
 from sklearn.svm import LinearSVC
+import numpy as np
 
 dataset = fetch_mldata('mnist-original', data_home='./MNIST')
 

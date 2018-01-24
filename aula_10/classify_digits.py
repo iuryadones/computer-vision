@@ -24,7 +24,7 @@ cv2.imshow('GaussianBlur Gray', gray)
 cv2.waitKey(0)
 
 ret, im_th = cv2.threshold(gray, 127, 255, 0)
-im2,cnts,hierarchy = cv2.findContours(im_th, 1, 2)
+im2, cnts, hierarchy = cv2.findContours(im_th, 1, 2)
 
 rects = [cv2.boundingRect(cnt) for cnt in cnts]
 for rect in rects:
