@@ -1,11 +1,12 @@
 # import the necessary packages
-from sklearn.neighbors import KNeighborsClassifier
+import argparse
+
+from imutils import paths
 from skimage import exposure
 from skimage import feature
-from imutils import paths
-import argparse
-import imutils
+from sklearn.neighbors import KNeighborsClassifier
 import cv2
+import imutils
 
 #modo de usar
 #python car_logo.py --training car_logos --test test_images 
@@ -29,20 +30,19 @@ for imagePath in paths.list_images(args["training"]):
     # load the image, convert it to grayscale, and detect edges or binarize
 
     ######[CODE HERE]#######
-    img = cv2.imread(imagePath, 0)
-    gray = img
+    img = cv2.imread(imagePath)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ######[END CODE]#######
 
     # find contours in the edge map, keeping only the largest one which
     # is presumed to be the car logo
 
     #####[CODE HERE]#######
-    ret,thresh = cv2.threshold(gray,127,255,0)
-    im2,cnts,hierarchy = cv2.findContours(thresh, 1, 2)
-    c = max(cnts, key=cv2.contourArea)
+    ret,thresh = cv2.threshold(gray, 100, 255, 0)
+    im2, cnts, hierarchy = cv2.findContours(thresh, 1, 2)
+    c = max(cnts, key = cv2.contourArea)
     #####[END CODE]#######
 
-     
     # extract the logo of the car and resize it to a canonical width
     # and height
     (x, y, w, h) = cv2.boundingRect(c)
@@ -51,7 +51,12 @@ for imagePath in paths.list_images(args["training"]):
 
     # extract Histogram of Oriented Gradients from the logo
     #####[CODE HERE]#######
-    (H, hogImage) = feature.hog(logo, orientations=9, pixels_per_cell=(10,10), cells_per_block=(2,2), transform_sqrt=True, visualise=True) 
+    (H, hogImage) = feature.hog(logo,
+                                orientations=9,
+                                pixels_per_cell=(16, 16),
+                                cells_per_block=(2, 2),
+                                transform_sqrt=True,
+                                visualise=True)
 
     #####[END CODE]#######
     # update the data and labels
@@ -73,8 +78,13 @@ for imagePath in paths.list_images(args["test"]):
 
     # extract Histogram of Oriented Gradients from the test image and
     # predict the make of the car
-    (H, hogImage) = feature.hog(logo, orientations=9, pixels_per_cell=(10, 10),
-            cells_per_block=(2, 2), transform_sqrt=True, visualise=True)
+    (H, hogImage) = feature.hog(logo,
+                                orientations=9,
+                                pixels_per_cell=(16, 16),
+                                cells_per_block=(2, 2),
+                                transform_sqrt=True,
+                                visualise=True)
+
     pred = model.predict(H.reshape(1, -1))[0]
 
     # visualize the HOG image
@@ -83,7 +93,13 @@ for imagePath in paths.list_images(args["test"]):
     cv2.imshow("HOG Image", hogImage)
 
     # draw the prediction on the test image and display it
-    cv2.putText(image, pred.title(), (10, 35), cv2.FONT_HERSHEY_SIMPLEX, 1.0,
-            (0, 255, 0), 3)
+    cv2.putText(image,
+                pred.title(),
+                (10, 35),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                1.0,
+                (0, 255, 0),
+                3)
+
     cv2.imshow("Test Image", image)
     cv2.waitKey(0)

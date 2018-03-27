@@ -1,10 +1,17 @@
 #-*- coding: utf-8 -*-
 
 import os
+
 import cv2
 
-path = os.getcwd() + os.sep
-path += '../db_images/'
+
+if os.sep in __file__.split(os.sep)[0]:
+    _file = __file__.split(os.sep)[0]
+else:
+    _file = ''
+
+path = f'{os.sep}'.join([os.getcwd(), _file])
+path += os.sep+'../db_images/'
 
 image_fundo = cv2.imread(path + 'png/captcha.png')
 image_menor = cv2.imread(path + 'jpeg/captcha.jpeg')
