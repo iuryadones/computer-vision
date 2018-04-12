@@ -8,16 +8,20 @@ from sklearn.svm import LinearSVC
 from sklearn.svm import SVC
 import cv2
 import numpy as np
+import pylab as plt
+import multiprocessing as mp
 
 
 def loader_data(origin):
     dataset = fetch_mldata(origin, data_home='./train')
-    features = np.array(dataset.data, 'int32')
+    features = np.array(dataset.data, 'int64')
     labels = np.array(dataset.target, 'int8')
     print("Count of digits in dataset", Counter(labels))
 
     return features, labels
 
+def descriptor_hog(attr):
+    return hog(np.array(attr[0].reshape((28, 28)), dtype='float64'), **attr[1])
 
 def feature_hog(features, labels):
     kwargs = {
@@ -28,22 +32,37 @@ def feature_hog(features, labels):
         'transform_sqrt': True
     }
 
-    list_hog_fd = map(
-        lambda feature: hog(feature.reshape((28, 28)), **kwargs), features
+    pool = mp.Pool(4)
+    result_hog = pool.map(
+        descriptor_hog,
+        ((feature, kwargs) for feature in features),
     )
+    pool.close()
+    pool.join()
 
-    hog_features = np.array(list(list_hog_fd), 'float64')
-    return hog_features
+    return np.array(result_hog, dtype='float64')
 
 
 def dump_clf(name_pkl, hog_features, labels):
-    clf = LinearSVC()
     print('Start trainng')
+    clf = LinearSVC()
     clf.fit(hog_features, labels)
     print('End trainng')
     print('Start Dump')
     joblib.dump(clf, name_pkl, compress=3)
     print('End Dump')
+
+def imshow(img):
+    cv2.imshow('Image', img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def pipeline_process_image(src, args):
+    if not args:
+        return src.copy()
+    pipe = args.pop(0)
+    src = pipe[0](src.copy(), **pipe[1])
+    return pipeline_process_image(src.copy(), args)
 
 def classify(name_pkl):
     way = os.getcwd() + os.sep
@@ -51,35 +70,23 @@ def classify(name_pkl):
     testing = os.listdir(way)
     clf = joblib.load(name_pkl)
 
-    for test in testing:
-        path = way + test
-        im = cv2.imread(path)
+    pipe_args = [
+        (cv2.cvtColor, dict(code=cv2.COLOR_BGR2GRAY)),
+        (cv2.GaussianBlur, dict(ksize=(5, 5), sigmaX=0.0)),
+        (cv2.medianBlur, dict(ksize=3))
+    ]
 
-        # cv2.imshow('Digits Original', im)
-        # cv2.waitKey(200)
-        # cv2.destroyAllWindows()
+    paths = [(way + test) for test in testing]
+    imgs = [cv2.imread(filename=path) for path in paths]
+    results = [pipeline_process_image(img, pipe_args) for img in imgs]
 
-        gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+    [imshow(result) for result in results]
 
-        # cv2.imshow('Original Gray', gray)
-        # cv2.waitKey(200)
-        # cv2.destroyAllWindows()
-
-        for _ in range(1):
-            gray = cv2.GaussianBlur(gray, (5, 5), 0.0)
-            # gray = cv2.medianBlur(gray, 3)
-            # cv2.imshow('GaussianBlur Gray', gray)
-            # cv2.waitKey(200)
-            # cv2.destroyAllWindows()
-
-        ret, im_th = cv2.threshold(gray,
+    for result in results:
+        ret, im_th = cv2.threshold(result,
                                    0,
                                    255,
                                    cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-
-        # cv2.imshow('THRESH_BINARY_INV and THRESH_OTSU', im_th)
-        # cv2.waitKey(200)
-        # cv2.destroyAllWindows()
 
         im2, cnts, hierarchy = cv2.findContours(im_th,
                                                 cv2.RETR_EXTERNAL,
@@ -102,12 +109,6 @@ def classify(name_pkl):
 
                 roi = im_th[pt1:pt1+leng, pt2:pt2+leng]
                 roi = cv2.resize(roi, (28, 28), interpolation=ntr)
-                # roi = cv2.erode(roi, (3, 3))
-                # roi = cv2.dilate(roi, (3, 3))
-
-                cv2.imshow("Roi", roi)
-                cv2.waitKey(200)
-                cv2.destroyAllWindows()
 
                 roi_hog_fd = hog(roi,
                                  orientations=9,
@@ -117,20 +118,20 @@ def classify(name_pkl):
                                  transform_sqrt=True)
 
                 pred = clf.predict(np.array([roi_hog_fd], 'float64'))
-                print(pred)
                 vector_predict.append(pred)
+                print(pred)
 
             nbr = Counter([v[0] for v in vector_predict]).most_common()
             print(nbr)
             nbr = nbr[0]
 
-            cv2.rectangle(im,
+            cv2.rectangle(result,
                           (rect[0], rect[1]),
                           (rect[0] + rect[2], rect[1] + rect[3]),
                           (0, 255, 0),
                           1)
 
-            cv2.putText(im,
+            cv2.putText(result,
                         str(int(nbr[0])),
                         (rect[0], rect[1]),
                         cv2.FONT_HERSHEY_DUPLEX,
@@ -138,9 +139,7 @@ def classify(name_pkl):
                         (0, 255, 255),
                         1)
 
-        cv2.imshow("Resulting Image with Rectangular ROIs", im)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+            imshow(result)
 
 
 def main(trainnig=False):
@@ -156,4 +155,4 @@ def main(trainnig=False):
 
 
 if __name__ == "__main__":
-    main(True)
+    main(False)
