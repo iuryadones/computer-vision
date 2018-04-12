@@ -18,7 +18,7 @@ from pymongo import MongoClient
 settings = {
     'client':{
         'host': 'localhost',
-        'port': 34120,
+        'port': 27017,
     },
     'db': {
         'name': 'tribunais_extracao'
@@ -33,6 +33,11 @@ print(f'Captchas\nTotal: {db[xcoll].count()}')
 data = list(db[xcoll].find({}).skip(547517).limit(1))[0]['data']
 
 pp = PIL.Image.open(BytesIO(data))
+
+cv2.imshow('image', np.array(pp))
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
 # pp.save('./captcha.png',format='png')
 plt.figure()
 plt.xticks([])
