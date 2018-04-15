@@ -1,16 +1,16 @@
 # vision-comp
 
 ## Workstation
- - 1. Install pipenv 
+ - 1 Install pipenv
  - 2.1 Add in .bashrc
  - 2.2 Add in .zshrc
 
-### 1
+### 1 Install pipenv
 ```bash
 pip install --user pipenv
 ```
 
-#### 2.1
+#### 2.1 Add in .bashrc
 ```bash
 ## local_user: pipenv and others binary
 if [[ -d $HOME/.local ]]; then
@@ -27,7 +27,7 @@ if command -v pip &> /dev/null; then
 fi
 ```
 
-#### 2.2
+#### 2.2 Add in .zshrc
 ```zsh
 ## local_user: pipenv and others binary
 if [[ -d $HOME/.local ]]; then
