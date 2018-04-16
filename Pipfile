@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+numpy = "*"
+scipy = "*"
+opencv-python = "*"
+opencv-contrib-python = "*"
+matplotlib = "*"
+scikit-learn = "*"
+scikit-image = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
