@@ -1,0 +1,15 @@
+[0] Config.pm:302> INFO - This is Biber 2.11
+[0] Config.pm:305> INFO - Logfile is 'main.blg'
+[40] biber:313> INFO - === Tue Apr 17, 2018, 13:01:06
+[63] Biber.pm:371> INFO - Reading 'main.bcf'
+[144] Biber.pm:857> INFO - Found 1 citekeys in bib section 0
+[162] Biber.pm:3976> INFO - Processing section 0
+[176] Biber.pm:4136> INFO - Looking for bibtex format file 'bib/book.bib' for section 0
+[177] bibtex.pm:1500> INFO - LaTeX decoding ...
+[180] bibtex.pm:1316> INFO - Found BibTeX data source 'bib/book.bib'
+[219] UCollate.pm:68> INFO - Overriding locale 'pt-BR' defaults 'variable = shifted' with 'variable = non-ignorable'
+[219] UCollate.pm:68> INFO - Overriding locale 'pt-BR' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[219] Biber.pm:3804> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'pt-BR'
+[219] Biber.pm:3810> INFO - No sort tailoring available for locale 'pt-BR'
+[223] bbl.pm:617> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[225] bbl.pm:720> INFO - Output to main.bbl

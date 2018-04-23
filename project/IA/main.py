@@ -70,23 +70,27 @@ def classify(name_pkl):
     testing = os.listdir(way)
     clf = joblib.load(name_pkl)
 
-    pipe_args = [
-        (cv2.cvtColor, dict(code=cv2.COLOR_BGR2GRAY)),
-        (cv2.GaussianBlur, dict(ksize=(5, 5), sigmaX=0.0)),
-        (cv2.medianBlur, dict(ksize=3))
-    ]
-
     paths = [(way + test) for test in testing]
-    imgs = [cv2.imread(filename=path) for path in paths]
-    results = [pipeline_process_image(img, pipe_args) for img in imgs]
 
-    [imshow(result) for result in results]
+    for path in paths:
+        img = cv2.imread(filename=path)
+        imshow(img)
 
-    for result in results:
+        pipe_args = [
+            (cv2.cvtColor, dict(code=cv2.COLOR_BGR2GRAY)),
+            (cv2.GaussianBlur, dict(ksize=(5, 5), sigmaX=0.0)),
+            (cv2.medianBlur, dict(ksize=3))
+        ]
+
+        result = pipeline_process_image(img, pipe_args)
+        imshow(result)
+
         ret, im_th = cv2.threshold(result,
                                    0,
                                    255,
                                    cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+
+        imshow(im_th)
 
         im2, cnts, hierarchy = cv2.findContours(im_th,
                                                 cv2.RETR_EXTERNAL,

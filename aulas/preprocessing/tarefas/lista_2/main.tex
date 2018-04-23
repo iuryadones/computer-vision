@@ -1,0 +1,234 @@
+%{{{ Preamble
+\documentclass[12pt,a4paper]{article}
+%}}}
+%{{{ Packages
+%{{{ geometry
+\usepackage[
+    bottom=3cm,
+    left=2cm,
+    right=2cm,
+    top=3cm,
+]{geometry}
+%}}}
+%{{{ bibliography
+\usepackage[
+    backend=biber,
+    defernumbers=true,
+    encoding=latin1,
+    style=abnt,
+]{biblatex}
+\usepackage[autostyle]{csquotes}
+%}}}
+%{{{ type input font
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[brazil]{varioref}
+\usepackage[utf8]{inputenc}
+%}}}
+%{{{ type output font
+\usepackage{
+    amsfonts,
+    amsmath,
+    amsopn,
+    amssymb,
+    amsthm,
+    latexsym
+}
+\usepackage{indentfirst}
+%}}}
+%{{{ Question
+\usepackage{booktabs}
+\usepackage{exsheets}
+\usepackage{tasks}
+\SetupExSheets[question]{type=exercise}
+\SetupExSheets[points]{name=pt/s,number-format=\color{blue}\textbf}
+\SetupExSheets{
+    counter-format=qu,
+    counter-within=section,
+    headings=runin,
+    solution/print=true
+}
+%}}}
+%}}}
+%{{{ Add bib
+\addbibresource{bib/book.bib}
+%}}}
+%{{{ Add New Command
+\newcommand\wb[1]{\discretionary{#1}{#1}{#1}}
+%}}}
+%{{{ Documento
+\begin{document}
+
+%{{{ maketitle
+\begin{center}
+\Large
+Universidade Federal Rural de Pernambuco - Recife{\\}
+Programa de Pós Graduação em Informática Aplicada{\\}
+Departamento de Informática{\\}
+\end{center}
+\vspace{1 em}
+
+\begin{flushleft}
+\large
+Disciplina: Processamento de Imagens Digitais{\\}
+Professor: Dr. Filipe Cordeiro{\\}
+Estudante: Iury Adones{\\}
+Data: \today
+\end{flushleft}
+\vspace{1 em}
+
+\begin{center}
+{\Large{Lista de Exercícios}}
+\end{center}
+
+\begin{flushleft}
+Livro adotado \autocite{GONZALEZ2010}.
+\end{flushleft}
+%}}}
+
+\section*{Capítulo 2 - Fundamentos}
+
+%{{{ Points
+\vspace{1 em}
+\begin{center}
+\begin{tabular}{l*{\numberofquestions}{c}c}\toprule
+    Questão & \ForEachQuestion{\QuestionNumber{#1}\iflastquestion{}{&} } & Total \\ \midrule
+    Pontos   & \ForEachQuestion{\GetQuestionProperty{points}{#1}\iflastquestion{}{&} } & \pointssum* \\
+    Alcançado  & \ForEachQuestion{\iflastquestion{}{&} } & \\ \bottomrule
+\end{tabular}
+\end{center}
+\vspace{1 em}
+%}}}
+
+%{{{ Questions
+
+
+
+1. A) Discuta sobre o espectro eletromagnético da luz visível.
+b) Se podemos enxergar apenas uma pequena parte do espectro visível, como conseguimos ver imagens em infravermelho, por exemplo?
+c) Desenhe a estrutura do olho humano, descreva seus principais componentes e como a imagem é formada.
+d) Desenhe a estrutura (básica) de uma câmera CCD. Descreva seus principais componentes e como a imagem é obtida.
+e) Qual a analogia que pode ser realizada entre os componentes da câmera e do olho?
+
+
+Suponha uma imagem onde cada pixel é representado por um byte, mas todos os seus pixels (320x240) encontram-se em uma faixa de 16 tons de cinza (por exemplo, entre 100 e 115). Proponha outra forma de representar esta imagem, qual o possível ganho no armazenamento desta imagem? Extrapole a sua ideia para um sistema de representação em que você não conhece a priori a quantidade de tons de cinza das imagens de entrada e avalie os ganhos máximos e mínimos possíveis na codificação da imagem em comparação com um bitmap (um byte por pixel).
+
+A imagem resultante da operação booleana AND entre duas imagens de entrada deverá conter média menor ou igual a menor média das imagens de entrada. Você concorda com essa afirmativa? Explique.
+
+A imagem resultante da operação booleana OR entre duas imagens de entrada deverá conter média menor ou igual a menor média das imagens de entrada. Você concorda com essa afirmativa? Explique.
+
+
+5. Suponha que uma área plana com centro em $({x_0},{y_0})$ seja iluminada por
+uma fonte de luz com distribuição de intensidade 
+$i(x,y) = Ke^{-[(x-{x_0})^{2}+(y-{y_0})^{2}]}$
+
+Suponha, para fins de simplificação, que a refletância da área seja constante e
+igual a 1,0 e que K=255. Se a imagem resultante for digitalizada com k bits de
+resolução de intensidade e o olho puder detectar uma mudança subida de oito
+níveis de intensidade entre pixels adjacentes, qual valor de k causará um falso
+contorno visível?
+
+
+A mediana, $\alpha$, de um conjunto de números é tal que metade dos valores do
+conjunto está baixo de $\alpha$ e a outra metade acima dele. Por exemplo, a
+mediana de um conjunto de valores \{2,3,8,20,21,25,31\} é 20. Demonstre que um
+operador que computa a mediana de uma subimagem de área, S, é não-linear.
+
+
+
+P. Exercícios de programação
+Para os exercícios seguintes, você poderá implementar em qualquer linguagem de programação, mas não deverá utilizar nenhuma biblioteca de processamento de imagens para realizar as operações.
+
+P.1 A rotação de uma imagem pode ser realizada multiplicando a posição de cada pixel pela matriz de rotação R. Dada uma imagem binária I, uma matriz identidade 100x100, realize as seguintes operações:
+    a) Gere a imagem A a partir da rotação I em 45 graus;
+    b) Gere a imagem B a partir da rotação de A em 45 graus;
+    c) Gere a imagem C a partir da rotação de I em 90 graus;
+
+$R(\theta) = [[cos(\theta) -sin(\theta)][sin(\theta) cos(\theta)]]$
+
+Compare B e C. Se B e C não forem idênticas encontre a causa do problema que fez com que isso ocorresse, proponha ainda uma solução para esse problema e analise as limitações da solução proposta.
+
+
+P.2 Escreva um programa capaz de reduzir o número de níveis de intensidade de uma imagem de 256 para 2, em inteiros da base 2. O número de níveis de intensidade necessários deve ser uma variável de entrada do seu programa. Obs: Use a figura “Fig0221.tif”
+
+
+P.3 a) Escreva um programa capaz de dar zoom out (redução) e zoom in (ampliação) ou reduzir a imagem por replicação de pixels. Assuma que o fator de zoom é inteiro. Utilize a figura “Fig0220.tif” para reduzir a imagem por um fator de 10.
+b) Use o programa para dar zoom na imagem em (B) para a resolução original. Explique as razões das diferenças.
+
+
+\begin{question}{1}
+    Defina Processamento de Imagens Digitais e faça uma associação com as
+    disciplinas de Visão Computacional e de Análise de Imagens.
+    \begin{tasks}(1)
+        \task Por que surgiu a necessidade de realizar o processamento digital de imagens?
+        \task Quais as vantagens de realizar o processamento digital de imagens?
+        \task Cite campos da ciência que utilizam fortemente PDI. Mostre exemplos.
+    \end{tasks}
+\end{question}
+
+\begin{solution}
+    \begin{tasks}(1)
+        \task Resp
+        \task Resp 
+        \task Resp
+    \end{tasks}
+\end{solution}
+
+
+\settasks{
+    counter-format=(tsk[a]),
+    label-width=4ex
+}
+\begin{question}{1}
+    Descreva os tópicos abordados em cada capítulo do livro de referência:
+    \begin{tasks}(2)
+        \task aquisição de imagens;
+        \task realce de imagens;
+        \task restauração de imagens;
+        \task processamento de imagens coloridas;
+        \task wavelets;
+        \task compressão de imagens;
+        \task morfologia matemática;
+        \task segmentação;
+        \task representação e descrição;
+        \task reconhecimento de objetos.
+    \end{tasks}
+\end{question}
+
+\begin{solution}
+    \begin{tasks}(2)
+        \task aquisição de imagens;
+        \task realce de imagens;
+        \task restauração de imagens;
+        \task processamento de imagens coloridas;
+        \task wavelets;
+        \task compressão de imagens;
+        \task morfologia matemática;
+        \task segmentação;
+        \task representação e descrição;
+        \task reconhecimento de objetos.
+    \end{tasks}
+\end{solution}
+
+
+
+\begin{question}{1}
+Descreva os passos básicos de um sistema PDI, explicando a utilidade de cada um
+deles. Cite ao menos 2 soluções para problemas do cotidiano que podem ser
+solucionados utilizando técnicas de PDI. Descreva detalhadamente cada problema,
+qual o papel das técnicas de PDI nas resoluções e o que seria feito em cada
+etapa básica desses sistemas.
+\end{question}
+
+%}}}
+
+\pagebreak
+%{{{ Referências Bibliográficas
+\medskip
+\printbibliography[
+    heading=bibintoc,
+    title={Referências Bibliográficas}
+]
+%}}}
+\end{document}
+%}}}

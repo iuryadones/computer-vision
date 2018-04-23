@@ -1,0 +1,180 @@
+%{{{ Preamble
+\documentclass[12pt,a4paper]{article}
+%}}}
+%{{{ Packages
+%{{{ geometry
+\usepackage[
+    bottom=3cm,
+    left=2cm,
+    right=2cm,
+    top=3cm,
+]{geometry}
+%}}}
+%{{{ bibliography
+\usepackage[
+    backend=biber,
+    defernumbers=true,
+    encoding=latin1,
+    style=abnt,
+]{biblatex}
+\usepackage[autostyle]{csquotes}
+%}}}
+%{{{ type input font
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[brazil]{varioref}
+\usepackage[utf8]{inputenc}
+%}}}
+%{{{ type output font
+\usepackage{
+    amsfonts,
+    amsmath,
+    amsopn,
+    amssymb,
+    amsthm,
+    latexsym
+}
+\usepackage{indentfirst}
+%}}}
+%{{{ Question
+\usepackage{booktabs}
+\usepackage{exsheets}
+\usepackage{tasks}
+\SetupExSheets[question]{type=exercise}
+\SetupExSheets[points]{name=pt/s,number-format=\color{blue}\textbf}
+\SetupExSheets{
+    counter-format=qu,
+    counter-within=section,
+    headings=runin,
+    solution/print=true
+}
+%}}}
+%}}}
+%{{{ Add bib
+\addbibresource{bib/book.bib}
+%}}}
+%{{{ Add New Command
+\newcommand\wb[1]{\discretionary{#1}{#1}{#1}}
+%}}}
+%{{{ Documento
+\begin{document}
+
+%{{{ maketitle
+\begin{center}
+\Large
+Universidade Federal Rural de Pernambuco - Recife{\\}
+Programa de Pós Graduação em Informática Aplicada{\\}
+Departamento de Informática{\\}
+\end{center}
+\vspace{1 em}
+
+\begin{flushleft}
+\large
+Disciplina: Processamento de Imagens Digitais{\\}
+Professor: Dr. Filipe Cordeiro{\\}
+Estudante: Iury Adones{\\}
+Data: \today
+\end{flushleft}
+\vspace{1 em}
+
+\begin{center}
+{\Large{Lista de Exercícios}}
+\end{center}
+
+\begin{flushleft}
+Livro adotado \autocite{GONZALEZ2010}.
+\end{flushleft}
+%}}}
+
+\section*{Capítulo 1 - Introdução}
+
+%{{{ Points
+\vspace{1 em}
+\begin{center}
+\begin{tabular}{l*{\numberofquestions}{c}c}\toprule
+    Questão & \ForEachQuestion{\QuestionNumber{#1}\iflastquestion{}{&} } & Total \\ \midrule
+    Pontos   & \ForEachQuestion{\GetQuestionProperty{points}{#1}\iflastquestion{}{&} } & \pointssum* \\
+    Alcançado  & \ForEachQuestion{\iflastquestion{}{&} } & \\ \bottomrule
+\end{tabular}
+\end{center}
+\vspace{1 em}
+%}}}
+
+%{{{ Questions
+
+\begin{question}{1}
+    Defina Processamento de Imagens Digitais e faça uma associação com as
+    disciplinas de Visão Computacional e de Análise de Imagens.
+    \begin{tasks}(1)
+        \task Por que surgiu a necessidade de realizar o processamento digital de imagens?
+        \task Quais as vantagens de realizar o processamento digital de imagens?
+        \task Cite campos da ciência que utilizam fortemente PDI. Mostre exemplos.
+    \end{tasks}
+\end{question}
+
+\begin{solution}
+    \begin{tasks}(1)
+        \task Resp
+        \task Resp 
+        \task Resp
+    \end{tasks}
+\end{solution}
+
+
+\settasks{
+    counter-format=(tsk[a]),
+    label-width=4ex
+}
+\begin{question}{1}
+    Descreva os tópicos abordados em cada capítulo do livro de referência:
+    \begin{tasks}(2)
+        \task aquisição de imagens;
+        \task realce de imagens;
+        \task restauração de imagens;
+        \task processamento de imagens coloridas;
+        \task wavelets;
+        \task compressão de imagens;
+        \task morfologia matemática;
+        \task segmentação;
+        \task representação e descrição;
+        \task reconhecimento de objetos.
+    \end{tasks}
+\end{question}
+
+\begin{solution}
+    \begin{tasks}(2)
+        \task aquisição de imagens;
+        \task realce de imagens;
+        \task restauração de imagens;
+        \task processamento de imagens coloridas;
+        \task wavelets;
+        \task compressão de imagens;
+        \task morfologia matemática;
+        \task segmentação;
+        \task representação e descrição;
+        \task reconhecimento de objetos.
+    \end{tasks}
+\end{solution}
+
+
+
+\begin{question}{1}
+Descreva os passos básicos de um sistema PDI, explicando a utilidade de cada um
+deles. Cite ao menos 2 soluções para problemas do cotidiano que podem ser
+solucionados utilizando técnicas de PDI. Descreva detalhadamente cada problema,
+qual o papel das técnicas de PDI nas resoluções e o que seria feito em cada
+etapa básica desses sistemas.
+\end{question}
+
+%}}}
+
+\pagebreak
+%{{{ Referências Bibliográficas
+\medskip
+\printbibliography[
+    heading=bibintoc,
+    title={Referências Bibliográficas}
+]
+%}}}
+\end{document}
+%}}}
