@@ -21,7 +21,36 @@ def loader_data(origin):
     return features, labels
 
 def descriptor_hog(attr):
-    return hog(np.array(attr[0].reshape((28, 28)), dtype='float64'), **attr[1])
+    im_th = np.array(attr[0].reshape((28,28)), dtype='float64')
+    plt.imsave(f'{os.getpid()}.png', im_th, cmap='Greys')
+
+    img = cv2.imread(f'./{os.getpid()}.png',)
+
+    grey = cv2.cvtColor(img, code=cv2.COLOR_BGR2GRAY)
+
+    ret, im_th = cv2.threshold(grey,
+                               0,
+                               255,
+                               cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+
+    im2, cnts, hierarchy = cv2.findContours(im_th,
+                                            cv2.RETR_EXTERNAL,
+                                            cv2.CHAIN_APPROX_SIMPLE)
+
+    rects = map(lambda cnt: cv2.boundingRect(cnt), cnts)
+    rects = sorted(rects, key=lambda r: -r[3])
+
+    for rect in rects:
+
+        leng = int(rect[3] * 1.)
+        pt1 = int(rect[1] + rect[3] // 2 - leng // 2)
+        pt2 = int(rect[0] + rect[2] // 2 - leng // 2)
+
+        vector_predict = []
+        for ntr in [cv2.INTER_AREA]:
+            roi = im_th[pt1:pt1+leng, pt2:pt2+leng]
+            roi = cv2.resize(roi, (28, 28), interpolation=ntr)
+            return hog(roi, **attr[1])
 
 def feature_hog(features, labels):
     kwargs = {
@@ -32,7 +61,7 @@ def feature_hog(features, labels):
         'transform_sqrt': True
     }
 
-    pool = mp.Pool(4)
+    pool = mp.Pool(8)
     result_hog = pool.map(
         descriptor_hog,
         ((feature, kwargs) for feature in features),
@@ -74,15 +103,17 @@ def classify(name_pkl):
 
     for path in paths:
         img = cv2.imread(filename=path)
+
         imshow(img)
 
         pipe_args = [
             (cv2.cvtColor, dict(code=cv2.COLOR_BGR2GRAY)),
             (cv2.GaussianBlur, dict(ksize=(5, 5), sigmaX=0.0)),
-            (cv2.medianBlur, dict(ksize=3))
+            (cv2.medianBlur, dict(ksize=3)),
         ]
 
         result = pipeline_process_image(img, pipe_args)
+
         imshow(result)
 
         ret, im_th = cv2.threshold(result,
@@ -97,6 +128,7 @@ def classify(name_pkl):
                                                 cv2.CHAIN_APPROX_SIMPLE)
 
         rects = map(lambda cnt: cv2.boundingRect(cnt), cnts)
+        rects = sorted(rects, key=lambda r: r[0])
 
         for rect in rects:
 
@@ -129,13 +161,13 @@ def classify(name_pkl):
             print(nbr)
             nbr = nbr[0]
 
-            cv2.rectangle(result,
+            cv2.rectangle(img,
                           (rect[0], rect[1]),
                           (rect[0] + rect[2], rect[1] + rect[3]),
                           (0, 255, 0),
                           1)
 
-            cv2.putText(result,
+            cv2.putText(img,
                         str(int(nbr[0])),
                         (rect[0], rect[1]),
                         cv2.FONT_HERSHEY_DUPLEX,
@@ -143,7 +175,7 @@ def classify(name_pkl):
                         (0, 255, 255),
                         1)
 
-            imshow(result)
+            imshow(img)
 
 
 def main(trainnig=False):
