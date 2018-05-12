@@ -1,0 +1,150 @@
+%{{{ Preamble
+\documentclass[12pt,a4paper]{article}
+%}}}
+%{{{ Packages
+%{{{ geometry
+\usepackage[
+    bottom=3cm,
+    left=2cm,
+    right=2cm,
+    top=3cm,
+]{geometry}
+%}}}
+%{{{ bibliography
+\usepackage[
+    backend=biber,
+    defernumbers=true,
+    encoding=latin1,
+    style=abnt,
+]{biblatex}
+\usepackage[autostyle]{csquotes}
+%}}}
+%{{{ type input font
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[brazil]{varioref}
+\usepackage[utf8]{inputenc}
+%}}}
+%{{{ type output font
+\usepackage{
+    amsfonts,
+    amsmath,
+    amsopn,
+    amssymb,
+    amsthm,
+    latexsym
+}
+\usepackage{indentfirst}
+%}}}
+%{{{ Question
+\usepackage{booktabs}
+\usepackage{exsheets}
+\usepackage{tasks}
+\SetupExSheets[question]{type=exercise}
+\SetupExSheets[points]{name=pt/s,number-format=\color{blue}\textbf}
+\SetupExSheets{
+    counter-format=qu,
+    counter-within=section,
+    headings=runin,
+    solution/print=true
+}
+%}}}
+%}}}
+%{{{ Add bib
+\addbibresource{bib/book.bib}
+%}}}
+%{{{ Add New Command
+\newcommand\wb[1]{\discretionary{#1}{#1}{#1}}
+%}}}
+%{{{ Documento
+\begin{document}
+
+%{{{ maketitle
+\begin{center}
+\Large
+Universidade Federal Rural de Pernambuco - Recife{\\}
+Programa de Pós Graduação em Informática Aplicada{\\}
+Departamento de Informática{\\}
+\end{center}
+\vspace{1 em}
+
+\begin{flushleft}
+\large
+Disciplina: Processamento de Imagens Digitais{\\}
+Professor: Dr. Filipe Cordeiro{\\}
+Estudante: Iury Adones{\\}
+Data: \today
+\end{flushleft}
+\vspace{1 em}
+
+\begin{center}
+{\Large{Lista de Exercícios}}
+\end{center}
+
+\begin{flushleft}
+Livro adotado \autocite{GONZALEZ2010}.
+\end{flushleft}
+%}}}
+
+\section*{Capítulo #}
+
+%{{{ Points
+\vspace{1 em}
+\begin{center}
+\begin{tabular}{l*{\numberofquestions}{c}c}\toprule
+    Questão & \ForEachQuestion{\QuestionNumber{#1}\iflastquestion{}{&} } & Total \\ \midrule
+    Pontos   & \ForEachQuestion{\GetQuestionProperty{points}{#1}\iflastquestion{}{&} } & \pointssum* \\
+    Alcançado  & \ForEachQuestion{\iflastquestion{}{&} } & \\ \bottomrule
+\end{tabular}
+\end{center}
+\vspace{1 em}
+%}}}
+
+%{{{ Questions
+\begin{question}{1}
+    \begin{tasks}(1)
+        \task
+    \end{tasks}
+\end{question}
+
+\begin{solution}
+    \begin{tasks}(1)
+        \task
+    \end{tasks}
+\end{solution}
+
+
+\settasks{
+    counter-format=(tsk[a]),
+    label-width=4ex
+}
+\begin{question}{1}
+    \begin{tasks}(2)
+        \task
+        \task
+    \end{tasks}
+\end{question}
+
+\begin{solution}
+    \begin{tasks}(2)
+        \task
+        \task
+    \end{tasks}
+\end{solution}
+
+\begin{question}{1}
+
+\end{question}
+
+%}}}
+
+\pagebreak
+%{{{ Referências Bibliográficas
+\medskip
+\printbibliography[
+    heading=bibintoc,
+    title={Referências Bibliográficas}
+]
+%}}}
+\end{document}
+%}}}
