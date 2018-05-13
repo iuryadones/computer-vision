@@ -49,6 +49,7 @@
     solution/print=true
 }
 %}}}
+\usepackage{lipsum}
 %}}}
 %{{{ Add bib
 \addbibresource{bib/book.bib}
@@ -86,7 +87,7 @@ Livro adotado \autocite{GONZALEZ2010}.
 \end{flushleft}
 %}}}
 
-\section*{Capítulo #}
+\section*{Capítulo 4 - Filtragem no Domínio de Frequência}
 
 %{{{ Points
 \vspace{1 em}
@@ -101,40 +102,118 @@ Livro adotado \autocite{GONZALEZ2010}.
 %}}}
 
 %{{{ Questions
-\begin{question}{1}
-    \begin{tasks}(1)
-        \task
-    \end{tasks}
-\end{question}
-
-\begin{solution}
-    \begin{tasks}(1)
-        \task
-    \end{tasks}
-\end{solution}
-
 
 \settasks{
-    counter-format=(tsk[a]),
-    label-width=4ex
+    counter-format=(tsk[r]),
+    label-width=4.5ex,
 }
+
 \begin{question}{1}
-    \begin{tasks}(2)
-        \task
-        \task
-    \end{tasks}
+
+\noindent
+Fazer um resumo com mínimo de 4 páginas do capítulo 4.
+
+\begin{tasks}(5)
+    \task Seção 4.1
+    \task Seção 4.5.5
+    \task Seção 4.7
+    \task Seção 4.8
+    \task Seção 4.9.0
+    \task Seção 4.9.1
+    \task Seção 4.9.2
+    \task Seção 4.9.3
+    \task Seção 4.9.4
+    \task Seção 4.9.5
+\end{tasks}
+
 \end{question}
 
 \begin{solution}
-    \begin{tasks}(2)
-        \task
-        \task
+    \begin{tasks}(1)
+        \task Seção 4.1 
+
+            O matemático francês Jean Baptiste Joseph Fourier, contribuiu com
+            ideas e formulações matemáticas que foi publicada em 1822 no seu
+            livro 1822, \textit{La théorie analitique de la chaleur} (A teoria
+            analítica do calor). A contribuição de Fourier foi a afirmação de
+            que qualquer função periódica pode ser expressa como a soma de senos
+            e/ou cossenos de diferentes frequências, cada uma multiplicada por
+            um coeficiente de amplitude diferente, logo está soma passou a ser
+            conhecida como a \textit{série de Fourier}. Não importando a
+            complexidade da função, sabendo se for periódica e restrita a
+            algumas condições matemáticas, então poderá ser representada pela
+            soma da série de Fourier. Até funções não periódicas, que em cuja
+            área sob uma curva é finita, podem ser expressa como uma integral de
+            senos e/ou cossenos multiplicada por uma função de ponderação. A
+            formulação é a \textit{Transformada de Fourier}, e sua
+            aplicabilidade é ainda maior que a série de Fourier. Nessas
+            formulações têm em comum a importante caracteristica de uma função,
+            expressa em uma série ou em uma transformada de Fourier, poder ser
+            totalmente reconstruída, ou seja, recuperada por meio de um processo
+            inverso, sem perda de informação. Portanto essa é uma das
+            características mais importantes das representações, pois permite
+            trabalhar no ``domínio da Fourier'' e, depois, retornar ao domínio
+            original da função sem perder quaisquer informações. As ideais de
+            Fourier foram aplicadas na área de difusão de calor, pois permitiram
+            a formulação de equações diferenciais que representavam o fluxo de
+            calor. No período inicial da década de 1960, foi pesquisado e
+            elaborado um algoritmo de transformada rápida de Fourier (FFT, de
+            \textit{fast Fourier transform}) que revolucionaram a área de
+            processamento de sinais, como também, contribuiu nas modernas
+            comunicações eletrônicas, digitalizadores médicos, no entanto
+            podemos utilizar tais metodologias no processamento de imagens
+            digitais. Assim podemos usar tais técnicas como filtragem no domínio
+            da frequência, para realce de imagens digitais.
+
+        \task Seção 4.5.5
+        
+        A transformação discreta de Fourier 2-D e sua inversa, logo a equação se
+        resulta em
+        $F(u,v)=\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}f(x,y)e^{-j2{\pi}(ux/M+vy/N)}$,
+        sendo $f(x,y)$ uma imagem digital de tamanho $M \times N$. A equação
+        deve ser avaliada em termos dos valores das variáveis discretas $u$ e
+        $v$ nos intervalos $u = 0, 1, 2, ..., M-1$ e $v = 0, 1, 2, ..., N-1$.
+        Dada a transformada $F(u,v)$, podemos obter $f(x,y)$ utilizando a
+        \textit{transformada discreta de Fourier inversa} (IDFT), conforme a
+        equação
+        $f(x,y)=\frac{1}{MN}\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}F(u,v)e^{j2{\pi}(ux/M+vy/N)}$
+        para $x = 0, 1, 2, ..., M-1$ e $y = 0, 1, 2, ..., N-1$. Tais equações
+        constituem o par de \textit{transformadas discretas de Fourier} 2-D.
+
+        \task Seção 4.7
+
+        página 184  
+
+        \task Seção 4.8
+
+        página 193 
+
+        \task Seção 4.9.0
+
+        página 201
+
+        \task Seção 4.9.1
+
+        página 202
+
+        \task Seção 4.9.2
+
+        página 204
+
+        \task Seção 4.9.3
+
+        página 204
+
+        \task Seção 4.9.4
+
+        página 205
+
+        \task Seção 4.9.5
+
+        página 206
+
     \end{tasks}
 \end{solution}
-
-\begin{question}{1}
-
-\end{question}
 
 %}}}
 
