@@ -189,6 +189,5 @@ def main(trainnig=False):
 
     classify(name_pkl)
 
-
 if __name__ == "__main__":
     main(False)
