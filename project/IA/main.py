@@ -1,5 +1,7 @@
 from collections import Counter
 import os
+from pathlib import Path
+from itertools import chain, zip_longest
 
 from skimage.feature import hog
 from sklearn.datasets.mldata import fetch_mldata
@@ -46,11 +48,9 @@ def descriptor_hog(attr):
         pt1 = int(rect[1] + rect[3] // 2 - leng // 2)
         pt2 = int(rect[0] + rect[2] // 2 - leng // 2)
 
-        vector_predict = []
-        for ntr in [cv2.INTER_AREA]:
-            roi = im_th[pt1:pt1+leng, pt2:pt2+leng]
-            roi = cv2.resize(roi, (28, 28), interpolation=ntr)
-            return hog(roi, **attr[1])
+        roi = im_th[pt1:pt1+leng, pt2:pt2+leng]
+        roi = cv2.resize(roi, (28, 28), interpolation=attr[1])
+        return hog(roi, **attr[2])
 
 def feature_hog(features, labels):
     kwargs = {
@@ -61,21 +61,46 @@ def feature_hog(features, labels):
         'transform_sqrt': True
     }
 
-    pool = mp.Pool(8)
-    result_hog = pool.map(
-        descriptor_hog,
-        ((feature, kwargs) for feature in features),
-    )
-    pool.close()
-    pool.join()
+    hog_labels = []
+    hog_results = []
 
-    return np.array(result_hog, dtype='float64')
+    for interpolation in [cv2.INTER_AREA,
+                          cv2.INTER_BITS,
+                          cv2.INTER_BITS2,
+                          cv2.INTER_CUBIC,
+                          cv2.INTER_LANCZOS4,
+                          cv2.INTER_LINEAR,
+                          cv2.INTER_LINEAR_EXACT,
+                          cv2.INTER_MAX,
+                          cv2.INTER_NEAREST,
+                          cv2.INTER_TAB_SIZE,
+                          cv2.INTER_TAB_SIZE2,]:
+        try:
+            print(interpolation)
+
+            pool = mp.Pool(8)
+            result_hog = pool.map(
+                descriptor_hog,
+                ((feature, interpolation, kwargs) for feature in features),
+            )
+            pool.close()
+            pool.join()
+        
+            hog_results.append(result_hog)
+            hog_labels.append(labels)
+        except:
+            pass
+
+    return (np.array([r for r in chain(*hog_results)], dtype='float64'), 
+            np.array([l for l in chain(*hog_labels)])) 
 
 
 def dump_clf(name_pkl, hog_features, labels):
-    print('Start trainng')
+    print('Start trainng', end='\n\n')
+
     clf = LinearSVC()
     clf.fit(hog_features, labels)
+
     print('End trainng')
     print('Start Dump')
     joblib.dump(clf, name_pkl, compress=3)
@@ -94,16 +119,20 @@ def pipeline_process_image(src, args):
     return pipeline_process_image(src.copy(), args)
 
 def classify(name_pkl):
-    way = os.getcwd() + os.sep
-    way += '../../db_images/handwritten_digits/test/'
-    testing = os.listdir(way)
     clf = joblib.load(name_pkl)
 
-    paths = [(way + test) for test in testing]
+    way = Path('../../db_images/handwritten_digits/test')
+    # way = Path('../../db_images/captcha/test')
+
+    way = way.resolve()
+
+    paths = way.rglob('*.png')
 
     for path in paths:
 
-        img = cv2.imread(filename=path)
+        print(path, end='\n\n')
+
+        img = cv2.imread(filename=path.as_posix())
 
         imshow(img)
 
@@ -131,6 +160,8 @@ def classify(name_pkl):
         rects = map(lambda cnt: cv2.boundingRect(cnt), cnts)
         rects = sorted(rects, key=lambda r: r[0])
 
+        labels = []
+
         for rect in rects:
 
             leng = int(rect[3] * 1.)
@@ -138,55 +169,92 @@ def classify(name_pkl):
             pt2 = int(rect[0] + rect[2] // 2 - leng // 2)
 
             vector_predict = []
-            for ntr in [cv2.INTER_NEAREST,
-                        cv2.INTER_AREA,
-                        cv2.INTER_LINEAR,
+
+            for ntr in [cv2.INTER_AREA,
+                        cv2.INTER_BITS,
+                        cv2.INTER_BITS2,
                         cv2.INTER_CUBIC,
-                        cv2.INTER_LANCZOS4]:
+                        cv2.INTER_LANCZOS4,
+                        cv2.INTER_LINEAR,
+                        cv2.INTER_LINEAR_EXACT,
+                        cv2.INTER_MAX,
+                        cv2.INTER_NEAREST,
+                        cv2.INTER_TAB_SIZE,
+                        cv2.INTER_TAB_SIZE2,]:
+                try:
+                    roi = im_th[pt1:pt1+leng, pt2:pt2+leng]
+                    roi = cv2.resize(roi, (28, 28), interpolation=ntr)
 
-                roi = im_th[pt1:pt1+leng, pt2:pt2+leng]
-                roi = cv2.resize(roi, (28, 28), interpolation=ntr)
+                    roi_hog_fd = hog(roi,
+                                     orientations=9,
+                                     pixels_per_cell=(8, 8),
+                                     cells_per_block=(3, 3),
+                                     block_norm='L2-Hys',
+                                     transform_sqrt=True)
 
-                roi_hog_fd = hog(roi,
-                                 orientations=9,
-                                 pixels_per_cell=(8, 8),
-                                 cells_per_block=(3, 3),
-                                 block_norm='L2-Hys',
-                                 transform_sqrt=True)
+                    pred = clf.predict(np.array([roi_hog_fd], 'float64'))
+                    vector_predict.append(pred)
+                    print(pred)
+                except:
+                    pass
 
-                pred = clf.predict(np.array([roi_hog_fd], 'float64'))
-                vector_predict.append(pred)
-                print(pred)
 
             nbr = Counter([v[0] for v in vector_predict]).most_common()
-            print(nbr)
-            nbr = nbr[0]
 
-            cv2.rectangle(img,
-                          (rect[0], rect[1]),
-                          (rect[0] + rect[2], rect[1] + rect[3]),
-                          (0, 255, 0),
-                          1)
+            if nbr:
+                print(nbr)
 
-            cv2.putText(img,
-                        str(int(nbr[0])),
-                        (rect[0], rect[1]),
-                        cv2.FONT_HERSHEY_DUPLEX,
-                        1,
-                        (0, 255, 255),
-                        1)
+                nbr = nbr[0]
+                text_label = str(int(nbr[0]))
+
+                cv2.rectangle(img,
+                              (rect[0], rect[1]),
+                              (rect[0] + rect[2], rect[1] + rect[3]),
+                              (0, 255, 0),
+                              1)
+
+                cv2.putText(img,
+                            text_label,
+                            (rect[0], rect[1]),
+                            cv2.FONT_HERSHEY_DUPLEX,
+                            1,
+                            (0, 255, 255),
+                            1)
+
+                labels.append(str(nbr[0]))
+            else:
+                labels.append('#')
 
             imshow(img)
 
+        print("\nImage Classify\n")
+
+        cls = ''.join(labels)
+        label_test = path.parent.name
+
+        print(cls, len(cls))
+        print(label_test, len(label_test))
+
+        imshow(img)
+
+        print(f"is_correct: {cls == label_test}")
+        print(f"is_lenght_equal: {len(cls) == len(label_test)}")
+        print(f"counter_correct: {len([True for x,y in zip_longest(label_test, cls) if x == y])}")
+        print(f"counter_error: {len(label_test) - len([True for x,y in zip_longest(label_test, cls) if x == y])}", end="\n\n")
+
+        imshow(img)
+
 
 def main(trainnig=False):
-    name_pkl = 'digits_clf.pkl'
+    name_pkl = 'digits_clf_inter_all.pkl'
+
     dataset = 'mnist-original'
 
     if trainnig:
         features, labels = loader_data(dataset)
-        hog_features = feature_hog(features, labels)
-        dump_clf(name_pkl, hog_features, labels)
+        hog_features, hog_labels = feature_hog(features, labels)
+
+        dump_clf(name_pkl, hog_features, hog_labels)
 
     classify(name_pkl)
 
