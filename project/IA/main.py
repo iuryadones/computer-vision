@@ -102,6 +102,7 @@ def classify(name_pkl):
     paths = [(way + test) for test in testing]
 
     for path in paths:
+
         img = cv2.imread(filename=path)
 
         imshow(img)
