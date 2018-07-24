@@ -104,51 +104,6 @@ Livro adotado \autocite{GONZALEZ2010}.
 
 
 
-Suponha uma imagem onde cada pixel é representado por um byte, mas todos os seus pixels (320x240) encontram-se em uma faixa de 16 tons de cinza (por exemplo, entre 100 e 115). Proponha outra forma de representar esta imagem, qual o possível ganho no armazenamento desta imagem? Extrapole a sua ideia para um sistema de representação em que você não conhece a priori a quantidade de tons de cinza das imagens de entrada e avalie os ganhos máximos e mínimos possíveis na codificação da imagem em comparação com um bitmap (um byte por pixel).
-
-A imagem resultante da operação booleana AND entre duas imagens de entrada deverá conter média menor ou igual a menor média das imagens de entrada. Você concorda com essa afirmativa? Explique.
-
-A imagem resultante da operação booleana OR entre duas imagens de entrada deverá conter média menor ou igual a menor média das imagens de entrada. Você concorda com essa afirmativa? Explique.
-
-
-5. Suponha que uma área plana com centro em $({x_0},{y_0})$ seja iluminada por
-uma fonte de luz com distribuição de intensidade 
-$i(x,y) = Ke^{-[(x-{x_0})^{2}+(y-{y_0})^{2}]}$
-
-Suponha, para fins de simplificação, que a refletância da área seja constante e
-igual a 1,0 e que K=255. Se a imagem resultante for digitalizada com k bits de
-resolução de intensidade e o olho puder detectar uma mudança subida de oito
-níveis de intensidade entre pixels adjacentes, qual valor de k causará um falso
-contorno visível?
-
-
-A mediana, $\alpha$, de um conjunto de números é tal que metade dos valores do
-conjunto está baixo de $\alpha$ e a outra metade acima dele. Por exemplo, a
-mediana de um conjunto de valores \{2,3,8,20,21,25,31\} é 20. Demonstre que um
-operador que computa a mediana de uma subimagem de área, S, é não-linear.
-
-
-
-P. Exercícios de programação
-Para os exercícios seguintes, você poderá implementar em qualquer linguagem de programação, mas não deverá utilizar nenhuma biblioteca de processamento de imagens para realizar as operações.
-
-P.1 A rotação de uma imagem pode ser realizada multiplicando a posição de cada pixel pela matriz de rotação R. Dada uma imagem binária I, uma matriz identidade 100x100, realize as seguintes operações:
-    a) Gere a imagem A a partir da rotação I em 45 graus;
-    b) Gere a imagem B a partir da rotação de A em 45 graus;
-    c) Gere a imagem C a partir da rotação de I em 90 graus;
-
-$R(\theta) = [[cos(\theta) -sin(\theta)][sin(\theta) cos(\theta)]]$
-
-Compare B e C. Se B e C não forem idênticas encontre a causa do problema que fez com que isso ocorresse, proponha ainda uma solução para esse problema e analise as limitações da solução proposta.
-
-
-P.2 Escreva um programa capaz de reduzir o número de níveis de intensidade de uma imagem de 256 para 2, em inteiros da base 2. O número de níveis de intensidade necessários deve ser uma variável de entrada do seu programa. Obs: Use a figura “Fig0221.tif”
-
-
-P.3 a) Escreva um programa capaz de dar zoom out (redução) e zoom in (ampliação) ou reduzir a imagem por replicação de pixels. Assuma que o fator de zoom é inteiro. Utilize a figura “Fig0220.tif” para reduzir a imagem por um fator de 10.
-b) Use o programa para dar zoom na imagem em (B) para a resolução original. Explique as razões das diferenças.
-
-
 \begin{question}{1}
     \begin{tasks}(1)
         \task Discuta sobre o espectro eletromagnético da luz visível.
@@ -173,45 +128,75 @@ b) Use o programa para dar zoom na imagem em (B) para a resolução original. Ex
     label-width=4ex
 }
 \begin{question}{1}
-    Descreva os tópicos abordados em cada capítulo do livro de referência:
-    \begin{tasks}(2)
-        \task aquisição de imagens;
-        \task realce de imagens;
-        \task restauração de imagens;
-        \task processamento de imagens coloridas;
-        \task wavelets;
-        \task compressão de imagens;
-        \task morfologia matemática;
-        \task segmentação;
-        \task representação e descrição;
-        \task reconhecimento de objetos.
-    \end{tasks}
+Suponha uma imagem onde cada pixel é representado por um byte, mas todos os seus pixels (320x240) encontram-se em uma faixa de 16 tons de cinza (por exemplo, entre 100 e 115). Proponha outra forma de representar esta imagem, qual o possível ganho no armazenamento desta imagem? Extrapole a sua ideia para um sistema de representação em que você não conhece a priori a quantidade de tons de cinza das imagens de entrada e avalie os ganhos máximos e mínimos possíveis na codificação da imagem em comparação com um bitmap (um byte por pixel).
 \end{question}
 
 \begin{solution}
-    \begin{tasks}(2)
-        \task aquisição de imagens;
-        \task realce de imagens;
-        \task restauração de imagens;
-        \task processamento de imagens coloridas;
-        \task wavelets;
-        \task compressão de imagens;
-        \task morfologia matemática;
-        \task segmentação;
-        \task representação e descrição;
-        \task reconhecimento de objetos.
-    \end{tasks}
+    \task resposta;
 \end{solution}
 
+\begin{question}{1}
+A imagem resultante da operação booleana AND entre duas imagens de entrada deverá conter média menor ou igual a menor média das imagens de entrada. Você concorda com essa afirmativa? Explique.
+\end{question}
 
+\begin{solution}
+    \task resposta;
+\end{solution}
 
 \begin{question}{1}
-Descreva os passos básicos de um sistema PDI, explicando a utilidade de cada um
-deles. Cite ao menos 2 soluções para problemas do cotidiano que podem ser
-solucionados utilizando técnicas de PDI. Descreva detalhadamente cada problema,
-qual o papel das técnicas de PDI nas resoluções e o que seria feito em cada
-etapa básica desses sistemas.
+A imagem resultante da operação booleana OR entre duas imagens de entrada deverá conter média menor ou igual a menor média das imagens de entrada. Você concorda com essa afirmativa? Explique.
 \end{question}
+
+\begin{solution}
+    \task resposta;
+\end{solution}
+
+\begin{question}{1}
+Suponha que uma área plana com centro em $({x_0},{y_0})$ seja iluminada por
+uma fonte de luz com distribuição de intensidade 
+$i(x,y) = Ke^{-[(x-{x_0})^{2}+(y-{y_0})^{2}]}$
+
+Suponha, para fins de simplificação, que a refletância da área seja constante e
+igual a 1,0 e que K=255. Se a imagem resultante for digitalizada com k bits de
+resolução de intensidade e o olho puder detectar uma mudança subida de oito
+níveis de intensidade entre pixels adjacentes, qual valor de k causará um falso
+contorno visível?
+\end{question}
+
+\begin{solution}
+    \task resposta;
+\end{solution}
+
+\begin{question}{1}
+A mediana, $\alpha$, de um conjunto de números é tal que metade dos valores do
+conjunto está baixo de $\alpha$ e a outra metade acima dele. Por exemplo, a
+mediana de um conjunto de valores \{2,3,8,20,21,25,31\} é 20. Demonstre que um
+operador que computa a mediana de uma subimagem de área, S, é não-linear.
+\end{question}
+
+\begin{solution}
+    \task resposta;
+\end{solution}
+
+% P. Exercícios de programação
+
+% Para os exercícios seguintes, você poderá implementar em qualquer linguagem de programação, mas não deverá utilizar nenhuma biblioteca de processamento de imagens para realizar as operações.
+
+% P.1 A rotação de uma imagem pode ser realizada multiplicando a posição de cada pixel pela matriz de rotação R. Dada uma imagem binária I, uma matriz identidade 100x100, realize as seguintes operações:
+%     a) Gere a imagem A a partir da rotação I em 45 graus;
+%     b) Gere a imagem B a partir da rotação de A em 45 graus;
+%     c) Gere a imagem C a partir da rotação de I em 90 graus;
+
+% $R(\theta) = [[cos(\theta) -sin(\theta)][sin(\theta) cos(\theta)]]$
+
+% Compare B e C. Se B e C não forem idênticas encontre a causa do problema que fez com que isso ocorresse, proponha ainda uma solução para esse problema e analise as limitações da solução proposta.
+
+
+% P.2 Escreva um programa capaz de reduzir o número de níveis de intensidade de uma imagem de 256 para 2, em inteiros da base 2. O número de níveis de intensidade necessários deve ser uma variável de entrada do seu programa. Obs: Use a figura “Fig0221.tif”
+
+
+% P.3 a) Escreva um programa capaz de dar zoom out (redução) e zoom in (ampliação) ou reduzir a imagem por replicação de pixels. Assuma que o fator de zoom é inteiro. Utilize a figura “Fig0220.tif” para reduzir a imagem por um fator de 10.
+% b) Use o programa para dar zoom na imagem em (B) para a resolução original. Explique as razões das diferenças.
 
 %}}}
 
