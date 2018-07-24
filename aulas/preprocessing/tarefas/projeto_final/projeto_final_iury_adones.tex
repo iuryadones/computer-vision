@@ -1,0 +1,112 @@
+%{{{ Preamble
+\documentclass[12pt,a4paper]{article}
+%}}}
+%{{{ Packages
+%{{{ geometry
+\usepackage[
+    bottom=3cm,
+    left=2cm,
+    right=2cm,
+    top=3cm,
+]{geometry}
+%}}}
+%{{{ bibliography
+\usepackage[
+    backend=biber,
+    defernumbers=true,
+    encoding=latin1,
+    style=abnt,
+]{biblatex}
+\usepackage[autostyle]{csquotes}
+%}}}
+%{{{ type input font
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[brazil]{varioref}
+\usepackage[utf8]{inputenc}
+%}}}
+%{{{ type output font
+\usepackage{
+    amsfonts,
+    amsmath,
+    amsopn,
+    amssymb,
+    amsthm,
+    latexsym
+}
+\usepackage{indentfirst}
+%}}}
+%{{{ Question
+\usepackage{booktabs}
+\usepackage{exsheets}
+\usepackage{tasks}
+\SetupExSheets[question]{type=exercise}
+\SetupExSheets[points]{name=pt/s,number-format=\color{blue}\textbf}
+\SetupExSheets{
+    counter-format=qu,
+    counter-within=section,
+    headings=runin,
+    solution/print=true
+}
+%}}}
+%}}}
+%{{{ Add bib
+\addbibresource{bib/book.bib}
+%}}}
+%{{{ Add New Command
+\newcommand\wb[1]{\discretionary{#1}{#1}{#1}}
+%}}}
+%{{{ Documento
+\begin{document}
+
+%{{{ maketitle
+\begin{center}
+\Large
+Universidade Federal Rural de Pernambuco - Recife{\\}
+Programa de Pós Graduação em Informática Aplicada{\\}
+Departamento de Informática{\\}
+\end{center}
+\vspace{1 em}
+
+\begin{flushleft}
+\large
+Disciplina: Processamento de Imagens Digitais{\\}
+Professor: Dr. Filipe Cordeiro{\\}
+Estudante: Iury Adones{\\}
+Data: \today
+\end{flushleft}
+\vspace{1 em}
+
+\begin{center}
+{\Large{Projeto Final}}
+\end{center}
+\vspace{2.5 em}
+%}}}
+
+\abstract{
+Neste presente trabalho, utilizaremos alguns dos diversos processamento de
+imagens visto no curso de preprocessamento de imagens digitais.
+}
+
+\section*{Introdução}
+
+um parágrafo dizendo o resumo do projeto
+
+Falar sobre o algorimo de processamento de imagens
+
+\section*{Metodologia}
+
+um parágrafo falando da metodologia que pretende usar.
+
+Ex: base de dados, algoritmos, etc.
+
+\pagebreak
+%{{{ Referências Bibliográficas
+\medskip
+\printbibliography[
+    heading=bibintoc,
+    title={Referências Bibliográficas}
+]
+%}}}
+\end{document}
+%}}}

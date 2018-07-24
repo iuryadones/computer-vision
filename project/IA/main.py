@@ -121,8 +121,8 @@ def pipeline_process_image(src, args):
 def classify(name_pkl):
     clf = joblib.load(name_pkl)
 
-    way = Path('../../db_images/handwritten_digits/test')
-    # way = Path('../../db_images/captcha/test')
+    # way = Path('../../db_images/handwritten_digits/test')
+    way = Path('../../db_images/captcha/test')
 
     way = way.resolve()
 
@@ -140,6 +140,7 @@ def classify(name_pkl):
             (cv2.cvtColor, dict(code=cv2.COLOR_BGR2GRAY)),
             (cv2.GaussianBlur, dict(ksize=(5, 5), sigmaX=0.0)),
             (cv2.medianBlur, dict(ksize=3)),
+            (cv2.GaussianBlur, dict(ksize=(3, 3), sigmaX=0.0)),
         ]
 
         result = pipeline_process_image(img, pipe_args)
