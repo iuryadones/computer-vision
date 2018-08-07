@@ -121,8 +121,12 @@ def imshow(img):
 def pipeline_process_image(src, args):
     if not args:
         return src.copy()
-    pipe = args.pop(0)
-    src = pipe[0](src.copy(), **pipe[1])
+    elif args[0][0].__name__ == "threshold":
+        pipe = args.pop(0)
+        _, src = pipe[0](src.copy(), **pipe[1])
+    else:
+        pipe = args.pop(0)
+        src = pipe[0](src.copy(), **pipe[1])
     return pipeline_process_image(src.copy(), args)
 
 
@@ -138,28 +142,52 @@ def classify(name_pkl):
 
     for path in paths:
 
-        print(path, end="\n\n")
+        # print(path, end="\n\n")
 
         img = cv2.imread(filename=path.as_posix())
 
-        imshow(img)
+        # imshow(img)
 
         pipe_args = [
             (cv2.cvtColor, dict(code=cv2.COLOR_BGR2GRAY)),
-            (cv2.GaussianBlur, dict(ksize=(5, 5), sigmaX=0.0)),
-            (cv2.medianBlur, dict(ksize=3)),
             (cv2.GaussianBlur, dict(ksize=(3, 3), sigmaX=0.0)),
+            (cv2.GaussianBlur, dict(ksize=(5, 5), sigmaX=0.0)),
+            (cv2.blur, dict(ksize=(5, 5))),
+            (cv2.blur, dict(ksize=(3, 3))),
+            (cv2.medianBlur, dict(ksize=3)),
+            (cv2.medianBlur, dict(ksize=5)),
+            (
+                cv2.threshold,
+                dict(
+                    thresh=0,
+                    maxval=255,
+                    type=cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU,
+                ),
+            ),
         ]
 
         result = pipeline_process_image(img, pipe_args)
 
-        imshow(result)
+        # imshow(result)
 
-        ret, im_th = cv2.threshold(
-            result, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU
-        )
+        im_th = result
 
-        imshow(im_th)
+        # ret, im_th = cv2.threshold(
+        #     result, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU
+        # )
+
+        # ret, im_th = cv2.threshold(result, 127, 255, cv2.THRESH_BINARY_INV)
+
+        # im_th = cv2.adaptiveThreshold(
+        #     result,
+        #     255,
+        #     cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+        #     cv2.THRESH_BINARY_INV,
+        #     11,
+        #     2,
+        # )
+
+        # imshow(im_th)
 
         im2, cnts, hierarchy = cv2.findContours(
             im_th, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
@@ -206,14 +234,14 @@ def classify(name_pkl):
 
                     pred = clf.predict(np.array([roi_hog_fd], "float64"))
                     vector_predict.append(pred)
-                    print(pred)
+                    # print(pred)
                 except:
                     pass
 
             nbr = Counter([v[0] for v in vector_predict]).most_common()
 
             if nbr:
-                print(nbr)
+                # print(nbr)
 
                 nbr = nbr[0]
                 text_label = str(int(nbr[0]))
@@ -240,7 +268,7 @@ def classify(name_pkl):
             else:
                 labels.append("#")
 
-            imshow(img)
+            # imshow(img)
 
         print("\nImage Classify\n")
 
@@ -250,7 +278,7 @@ def classify(name_pkl):
         print(cls, len(cls))
         print(label_test, len(label_test))
 
-        imshow(img)
+        # imshow(img)
 
         print(f"is_correct: {cls == label_test}")
         print(f"is_lenght_equal: {len(cls) == len(label_test)}")
@@ -262,7 +290,7 @@ def classify(name_pkl):
             end="\n\n",
         )
 
-        imshow(img)
+        # imshow(img)
 
 
 def main(trainnig=False):
@@ -280,4 +308,4 @@ def main(trainnig=False):
 
 
 if __name__ == "__main__":
-    main(False)
+    main()

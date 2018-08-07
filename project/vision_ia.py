@@ -18,32 +18,27 @@ from pymongo import MongoClient
 
 
 settings = {
-    'client':{
-        'host': 'localhost',
-        'port': 27017,
-    },
-    'db': {
-        'name': 'tribunais_extracao'
-    }
+    "client": {"host": "localhost", "port": 27017},
+    "db": {"name": "tribunais_extracao"},
 }
 
-connect = MongoClient(**settings['client'])
-db = connect.get_database(**settings['db'])
-xcoll_1 = 'fs.chunks'
-xcoll_2 = 'captchas'
+connect = MongoClient(**settings["client"])
+db = connect.get_database(**settings["db"])
+xcoll_1 = "fs.chunks"
+xcoll_2 = "captchas"
 
-print(f'Captchas\nTotal: {db[xcoll_1].count()}')
+print(f"Captchas\nTotal: {db[xcoll_1].count()}")
 
 
 for info in db[xcoll_2].find({}):
-    if info['correct'] and info['answer'].isdigit():
-        print(info['answer'])
-        print(info['correct'])
-        print(info['_id'])
+    if info["correct"] and info["answer"].isdigit():
+        print(info["answer"])
+        print(info["correct"])
+        print(info["_id"])
 
-        data = db[xcoll_1].find({'files_id':info['_id']})[0]
+        data = db[xcoll_1].find({"files_id": info["_id"]})[0]
 
-        d = data['data']
+        d = data["data"]
 
         pp = PIL.Image.open(BytesIO(d))
 
@@ -52,10 +47,11 @@ for info in db[xcoll_2].find({}):
         if not os.path.exists(path):
             os.mkdir(path)
         else:
-            pp.save(f'{path}/sample-{len(os.listdir(path)) + 1}.png',
-                    format='png')
+            pp.save(
+                f"{path}/sample-{len(os.listdir(path)) + 1}.png", format="png"
+            )
 
-        cv2.imshow('image', np.array(pp))
+        cv2.imshow("image", np.array(pp))
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
