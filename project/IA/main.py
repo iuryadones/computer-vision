@@ -1,17 +1,19 @@
 from collections import Counter
-import os
-from pathlib import Path
 from itertools import chain, zip_longest
+from pathlib import Path
+
+import os
 
 from skimage.feature import hog
 from sklearn.datasets.mldata import fetch_mldata
 from sklearn.externals import joblib
 from sklearn.svm import LinearSVC
 from sklearn.svm import SVC
+
 import cv2
+import multiprocessing as mp
 import numpy as np
 import pylab as plt
-import multiprocessing as mp
 
 
 def loader_data(origin):
